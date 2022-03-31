@@ -1,0 +1,40 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel DemoDispatchThreadId
+#pragma kernel DemoGroupThreadId
+
+float random(in float2 st)
+{
+    return frac(sin(dot(st.xy,
+    float2(12.9898, 78.233)))
+    * 43758.5453123);
+}
+
+struct CubeData
+{
+    float4 color;
+};
+
+RWStructuredBuffer<CubeData> CubeDatas;
+
+
+[numthreads(1, 1, 1)]
+void DemoDispatchThreadId(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x + id.y * 10 + id.z * 10 * 10;
+
+    CubeDatas[index].color = float4(1, 1, 1, 1);
+}
+
+[numthreads(4, 4, 1)]
+void DemoGroupThreadId(
+    uint groupIndex : SV_GroupIndex,
+    uint3 groupThreadId : SV_GroupThreadID,
+    uint3 id : SV_DispatchThreadID,
+    uint3 groupId : SV_GroupID)
+{
+    uint index = id.x + id.y * 12 + id.z * 12 * 12;
+    float randValue = random(groupThreadId.xy);
+    //CubeDatas[index].color = float4((float)groupIndex / 4.0, (float)groupIndex / 4.0, (float)groupIndex / 4.0, 1);
+    CubeDatas[index].color = float4(groupThreadId.x / 4.0, groupThreadId.y / 4.0, 0, 1);
+}
+

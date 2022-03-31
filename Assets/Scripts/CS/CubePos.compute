@@ -1,0 +1,17 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+
+RWStructuredBuffer<float3> PosWS;
+
+Texture2D WorldNoise;
+SamplerState sampler_WorldNoise;
+float NoiseScale;
+float Time;
+
+[numthreads(64, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    float noise = (WorldNoise.SampleLevel(sampler_WorldNoise, float2(id.x % 64.0, id.x / 64.0) / (64.0 * NoiseScale) + Time, 0)) * 8;
+    PosWS[id.x] = float3(id.x % 16, 0, id.x / 16) * 1.2 ;
+}
