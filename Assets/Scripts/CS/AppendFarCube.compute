@@ -3,15 +3,21 @@
 
 
 RWStructuredBuffer<float3> PosWS;
+AppendStructuredBuffer<uint> FarPosId;
 
 Texture2D WorldNoise;
 SamplerState sampler_WorldNoise;
 float NoiseScale;
 float Time;
+float3 CameraPos;
 
 [numthreads(64, 1, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
     //float noise = (WorldNoise.SampleLevel(sampler_WorldNoise, float2(id.x % 64.0, id.x / 64.0) / (64.0 * NoiseScale) + Time, 0)) * 8;
     PosWS[id.x] = float3(id.x % 16, 0, id.x / 16) * 1.2 ;
+    if (distance(PosWS[id.x], CameraPos) > 5)
+    {
+        FarPosId.Append(id.x);
+    }
 }
