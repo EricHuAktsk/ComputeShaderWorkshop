@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -200,10 +200,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 486647440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84252659a734a0849a1d0e41f4398019, type: 3}
+  m_Script: {fileID: 11500000, guid: dc24521a1672bdf4c9602d2cc475a49d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextureSize: 1024
+  TextureSize: 128
   m_colorTexturecCS: {fileID: 7200000, guid: 2da964e2f869e31499f35ef41c7ad49d, type: 3}
 --- !u!4 &486647442
 Transform:
@@ -294,13 +294,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 652956425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4d0d716d254e724c9f3666ff9a56f47, type: 3}
+  m_Script: {fileID: 11500000, guid: cfb55f4ce333ebf429cefa1394ee380d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_cubeCounts: {x: 10, y: 10, z: 1}
-  m_groupsSize: {x: 1, y: 1, z: 1}
+  m_groupsSize: {x: 10, y: 10, z: 1}
   m_kernal: 0
-  m_scale: 1.5
+  m_scale: 1.1
   m_noiseScale: 1
   m_cs: {fileID: 7200000, guid: cfdad5db85a8b4d40ae9fe1887a7672a, type: 3}
 --- !u!4 &652956427
