@@ -1,0 +1,44 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct MeshData
+{
+    float3 Position;
+};
+
+bool IsInClipSpace(float4 clipSpacePosition)
+{
+    return clipSpacePosition.x > - clipSpacePosition.w && clipSpacePosition.x < clipSpacePosition.w &&
+    clipSpacePosition.y > - clipSpacePosition.w && clipSpacePosition.y < clipSpacePosition.w &&
+    clipSpacePosition.z > - clipSpacePosition.w && clipSpacePosition.z < clipSpacePosition.w;
+}
+
+bool IsOutsideThePlane(float4 plane, float3 pointPosition)
+{
+    if (dot(plane.xyz, pointPosition) + plane.w > 0)
+        return true;
+    return false;
+}
+
+uint _InstanceCount;
+float4 _Planes[6];
+float3 _CameraPosWS;
+bool _EnabledCull;
+StructuredBuffer<MeshData> _Inputs;
+AppendStructuredBuffer<MeshData> _CullResult;
+float4x4 _MatrixVP;
+
+[numthreads(32, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x > _InstanceCount)
+        return;
+
+    MeshData data = _Inputs[id.x];
+    float3 worldPos = data.Position;
+    
+    if (!_EnabledCull || IsInClipSpace(mul(_MatrixVP, worldPos - _CameraPosWS)))
+    {
+        _CullResult.Append(data);
+    }
+}
